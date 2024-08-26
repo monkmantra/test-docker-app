@@ -1,0 +1,42 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: test-docker-app
+  annotations:
+    "backstage.io/project": "png-gcp-learning-poc"
+    "backstage.io/cloud-run": "test-docker"
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: monkmantra/test-docker-app
+    sonarqube.org/project-key: ltimindtreeSonarqube/test-docker
+  links:
+    - url: "https://test-docker-nraemwfzfa-uk.a.run.app"
+      title: Application URL
+      icon: extension
+    - url: "https://console.cloud.google.com/run/detail/us-east4/test-docker/logs?project=png-gcp-learning-poc"
+      title: Logs
+      icon: dashboard
+  tags:
+    - de-ims-app
+spec:
+  type: service
+  owner: user:de-ims
+  lifecycle: experimental
+  dependsOn:
+    - component:default/test-docker-infra
+  providesApis:
+    - test-docker
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: test-docker
+  description: The App APIs Specification. 
+  tags:
+    - fastapi
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: user:de-ims
+  definition:
+    $text: ./fastapi.yaml
